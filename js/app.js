@@ -9,7 +9,7 @@ var Enemy = function(x,y) {
     this.y = y;
 
     //speed is pixels per second
-    var speed = 5;
+    var speed = 20;
 };
 
 // Update the enemy's position, required method for game
@@ -39,7 +39,7 @@ var Player = function(){
   this.sprite = 'images/char-cat-girl.png';
   this.x = 200;
   this.y = 400;
-  this.speed = 5;
+  this.speed = 20;
 };
 
 Player.prototype.update = function(dt){
@@ -57,17 +57,17 @@ Player.prototype.handleInput = function(i){
   // handles if player tries to move offscreen
   // handles when player reaches water by reseting back to inital location.
   switch(i){
-  case 37:
-    x = this.x - 1;
+  case 'left':
+    this.x -= 30;
     break;
-  case 39:
-    x = this.x + 1;
+  case 'right':
+    this.x += 30;
     break;
-  case 38:
-    y = this.y - 1;
+  case 'up':
+    this.y -= 30;
     break;
-  case 40:
-   y = this.y + 1;
+  case 'down':
+    this.y += 30;
    break;
   }
 };
