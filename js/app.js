@@ -41,6 +41,32 @@ var Player = function(x,y) {
 };
 
 Player.prototype.update = function(dt){
+
+};
+
+Player.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+Player.prototype.handleInput = function(i){
+  //receives user input and moves the player according to that input.
+  // left key moves player to the left, right key moves to right.. etc.
+  switch(i){
+  case 'left':
+    this.x -= 90;
+    break;
+  case 'right':
+    this.x += 90;
+    break;
+  case 'up':
+    this.y -= 90;
+    break;
+  case 'down':
+    this.y += 90;
+   break;
+  }
+
+  // handles if player tries to move offscreen
   if (this.x > 420) {
     this.x = 420;
   } else if(this.x < -15) {
@@ -56,31 +82,8 @@ Player.prototype.update = function(dt){
   } else {
     this.y = this.y;
   }
-};
 
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
-Player.prototype.handleInput = function(i){
-  //receives user input and moves the player according to that input.
-  // left key moves player to the left, right key moves to right.. etc.
-  // handles if player tries to move offscreen
   // handles when player reaches water by reseting back to inital location.
-  switch(i){
-  case 'left':
-    this.x -= 90;
-    break;
-  case 'right':
-    this.x += 90;
-    break;
-  case 'up':
-    this.y -= 90;
-    break;
-  case 'down':
-    this.y += 90;
-   break;
-  }
 };
 
 // Now instantiate your objects.
