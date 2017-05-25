@@ -9,7 +9,7 @@ var Enemy = function(x,y) {
     this.y = y;
 
     //speed is pixels per second
-    var speed = 20;
+    this.speed = 80;
 };
 
 // Update the enemy's position, required method for game
@@ -19,32 +19,43 @@ Enemy.prototype.update = function(dt) {
     // updates location
     // distance is the number of pixels to move
     var distance = this.speed * dt;
-    x = this.x + distance;
-
+    if (this.x > 500) {
+      this.x = -10;
+    } else {
+      this.x = this.x + distance;
+    }
     //handles collision with player
-    //if player and enemy collide {
-      //player location is initial location.
-    //}
 };
-
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 // Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-var Player = function(){
+// This class requires an update(), render() and a handleInput() method.
+var Player = function(x,y) {
   this.sprite = 'images/char-cat-girl.png';
-  this.x = 200;
-  this.y = 400;
+  this.x = x;
+  this.y = y;
   this.speed = 20;
 };
 
 Player.prototype.update = function(dt){
-  var distance = this.speed * dt;
-  x = this.x + distance;
+  if (this.x > 420) {
+    this.x = 420;
+  } else if(this.x < -15) {
+    this.x = -15;
+  } else {
+    this.x = this.x;
+  }
+
+  if (this.y > 430){
+    this.y = 430;
+  } else if (this.y < -10){
+    this.y = -10;
+  } else {
+    this.y = this.y;
+  }
 };
 
 Player.prototype.render = function() {
@@ -58,16 +69,16 @@ Player.prototype.handleInput = function(i){
   // handles when player reaches water by reseting back to inital location.
   switch(i){
   case 'left':
-    this.x -= 30;
+    this.x -= 90;
     break;
   case 'right':
-    this.x += 30;
+    this.x += 90;
     break;
   case 'up':
-    this.y -= 30;
+    this.y -= 90;
     break;
   case 'down':
-    this.y += 30;
+    this.y += 90;
    break;
   }
 };
@@ -79,7 +90,7 @@ var enemy1 = new Enemy(10,60);
 var enemy2 = new Enemy(80,145);
 var enemy3 = new Enemy(120,230);
 var allEnemies = [enemy1, enemy2, enemy3];
-var player = new Player();
+var player = new Player(200,400);
 
 
 // This listens for key presses and sends the keys to your
