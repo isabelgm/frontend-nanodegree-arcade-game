@@ -24,33 +24,89 @@ Enemy.prototype.update = function(dt) {
     } else {
       this.x = this.x + distance;
     }
-    //handles collision with player
+    this.checkCollision();
 };
+
+Enemy.prototype.checkCollision = function(){
+  if (this.x + 75 > player.x && player.x + 75 > this.x && this.y + 67 > player.y && player.y + 67 > this.y){
+    console.log("Collison detected");
+    player.reset();
+    player.lives = player.lives - 1;
+
+    if (player.lives > 0){
+      console.log("Total Lives: " + player.lives);
+    } else {
+      console.log("Game Over");
+    }
+  }
+};
+
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Now write your own player class
+// Player class
 // This class requires an update(), render() and a handleInput() method.
 var Player = function(x,y) {
   this.sprite = 'images/char-cat-girl.png';
   this.x = x;
   this.y = y;
+  this.score = 0;
+  this.lives = 3;
   this.speed = 20;
 };
 
-Player.prototype.update = function(dt){
+function drawBox(x, y, width, height, color) {
+    ctx.beginPath();
+    ctx.rect(x, y, width, height);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = color;
+    ctx.stroke();
+};
 
+
+Player.prototype.update = function(dt){
+  // Create variable with %data% inside objects to add scores and lives to game
+   var Score = "SCORE: %data%";
+   var Lives = "LIVES: %data%";
+
+   // variables replace %data% using .replace method
+   var updateScore = Score.replace("%data%", this.score);
+   var updateLives = Lives.replace("%data%", this.lives);
+
+   //target the score and lives ids in html to update score and lives
+   $("#score").html(" ");
+   $("#score").html(updateScore);
+
+   $("#lives").html(" ");
+   $("#lives").html(updateLives);
+
+   if (this.lives === 0){
+     alert("Game Over! Click OK to play again. :)");
+     this.score = 0;
+     this.lives = 3;
+   }
+
+  // updates the player score by 100 if the player reaches the water and moves player back to start position.
+  if(this.playerWins()){
+    this.score += 100;
+    console.log("Score!! +100")
+    alert("Score! You just scored 100 points!");
+    player.reset();
+  }
+
+  //invokes player.boundaries so the player stays in Canvas
+  this.boundaries();
 };
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+//receives user input and moves the player according to that input.
 Player.prototype.handleInput = function(i){
-  //receives user input and moves the player according to that input.
-  // left key moves player to the left, right key moves to right.. etc.
+
   switch(i){
   case 'left':
     this.x -= 90;
@@ -66,7 +122,10 @@ Player.prototype.handleInput = function(i){
    break;
   }
 
-  // handles if player tries to move offscreen
+};
+
+// handles if player tries to move offscreen
+Player.prototype.boundaries = function (){
   if (this.x > 420) {
     this.x = 420;
   } else if(this.x < -15) {
@@ -82,8 +141,18 @@ Player.prototype.handleInput = function(i){
   } else {
     this.y = this.y;
   }
+}
 
-  // handles when player reaches water by reseting back to inital location.
+//reset player to it's starting position
+Player.prototype.reset = function() {
+  this.x = 200;
+  this.y = 400;
+}
+
+Player.prototype.playerWins = function(){
+  if (this.y < -5){
+    return true;
+  }
 };
 
 // Now instantiate your objects.
