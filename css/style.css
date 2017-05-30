@@ -4,6 +4,11 @@ body {
     background-color: black;
 }
 
-p, h1, h3 {
+p, h1, h3, a{
   color: white;
+}
+
+footer {
+  font-family: 'Helvetica', sans-serif;
+  font-size: 12px;
 }
