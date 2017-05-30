@@ -1,4 +1,9 @@
 body {
     text-align: center;
-    font-family: 'Chewy', cursive;
+    font-family: 'Poller One', cursive;
+    background-color: black;
+}
+
+p, h1, h3 {
+  color: white;
 }

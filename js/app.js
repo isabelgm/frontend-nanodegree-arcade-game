@@ -4,12 +4,12 @@ var Enemy = function(x,y) {
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
+    this.sprite = 'images/enemy-ship.png';
     this.x = x;
     this.y = y;
 
     //speed is pixels per second
-    this.speed = 80;
+    this.speed = 100;
 };
 
 // Update the enemy's position, required method for game
@@ -30,6 +30,7 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.checkCollision = function(){
   if (this.x + 75 > player.x && player.x + 75 > this.x && this.y + 67 > player.y && player.y + 67 > this.y){
     console.log("Collison detected");
+    blast.play();
     player.reset();
     player.lives = player.lives - 1;
 
@@ -49,12 +50,12 @@ Enemy.prototype.render = function() {
 // Player class
 // This class requires an update(), render() and a handleInput() method.
 var Player = function(x,y) {
-  this.sprite = 'images/char-cat-girl.png';
+  this.sprite = 'images/millenium-falcon.png';
   this.x = x;
   this.y = y;
   this.score = 0;
   this.lives = 3;
-  this.speed = 20;
+  this.speed = 60;
 };
 
 function drawBox(x, y, width, height, color) {
@@ -91,6 +92,7 @@ Player.prototype.update = function(dt){
   // updates the player score by 100 if the player reaches the water and moves player back to start position.
   if(this.playerWins()){
     this.score += 100;
+    woohoo.play();
     console.log("Score!! +100")
     alert("Score! You just scored 100 points!");
     player.reset();
@@ -109,16 +111,16 @@ Player.prototype.handleInput = function(i){
 
   switch(i){
   case 'left':
-    this.x -= 90;
+    this.x -= 100;
     break;
   case 'right':
-    this.x += 90;
+    this.x += 100;
     break;
   case 'up':
-    this.y -= 90;
+    this.y -= 85;
     break;
   case 'down':
-    this.y += 90;
+    this.y += 85;
    break;
   }
 
@@ -126,18 +128,18 @@ Player.prototype.handleInput = function(i){
 
 // handles if player tries to move offscreen
 Player.prototype.boundaries = function (){
-  if (this.x > 420) {
-    this.x = 420;
-  } else if(this.x < -15) {
-    this.x = -15;
+  if (this.x > 400) {
+    this.x = 400;
+  } else if(this.x < 0) {
+    this.x = 0;
   } else {
     this.x = this.x;
   }
 
-  if (this.y > 430){
-    this.y = 430;
-  } else if (this.y < -10){
-    this.y = -10;
+  if (this.y > 500){
+    this.y = 500;
+  } else if (this.y < 45){
+    this.y = 45;
   } else {
     this.y = this.y;
   }
@@ -146,23 +148,25 @@ Player.prototype.boundaries = function (){
 //reset player to it's starting position
 Player.prototype.reset = function() {
   this.x = 200;
-  this.y = 400;
+  this.y = 465;
 }
 
 Player.prototype.playerWins = function(){
-  if (this.y < -5){
+  if (this.y < 40){
     return true;
   }
 };
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
-var enemy1 = new Enemy(10,60);
-var enemy2 = new Enemy(80,145);
-var enemy3 = new Enemy(120,230);
+//Creates enemies and player objects
+var enemy1 = new Enemy(0,130);
+var enemy2 = new Enemy(120,215);
+var enemy3 = new Enemy(230,300);
 var allEnemies = [enemy1, enemy2, enemy3];
-var player = new Player(200,400);
+var player = new Player(200,465);
+
+// Add sound effects
+var blast = new Audio('sounds/blaster-firing.mp3');
+var woohoo = new Audio('sounds/R2D2.mp3');
 
 
 // This listens for key presses and sends the keys to your
