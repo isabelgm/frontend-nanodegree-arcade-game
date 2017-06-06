@@ -1,6 +1,8 @@
 Star Wars clone of Frogger Game
 ===============================
 
+![Star Wars Frogger Screen](/images/frogger.png)
+
 ## How to Play
 
 1. Use the arrows on your keyboard to move the millenium falcon on the screen.
