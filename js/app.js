@@ -1,12 +1,26 @@
 'use strict';
+//Character class
+function Character(x,y){
+  this.x = x;
+  this.y = y;
+}
+
 // Enemy Class
 var Enemy = function(x, y) {
+    Character.call(this, x, y);
     this.sprite = 'images/enemy-ship.png';
-    this.x = x;
-    this.y = y;
 
     // Speed is pixels per second
     this.speed = Math.floor(Math.random() * (150 - 100)) + 100;
+};
+
+// Player class
+var Player = function(x, y) {
+    Character.call(this, x, y);
+    this.sprite = 'images/millenium-falcon.png';
+    this.score = 0;
+    this.lives = 3;
+    this.speed = 60;
 };
 
 // Updates the enemy's position, required method for game
@@ -43,16 +57,6 @@ Enemy.prototype.reset = function() {
     this.x = Math.floor(Math.random() * (230 - 0)) - 0;
     this.y = Math.floor(Math.random() * (300 - 130)) + 130;
     this.speed = Math.floor(Math.random() * (150 - 100)) + 100;
-};
-
-// Player class
-var Player = function(x, y) {
-    this.sprite = 'images/millenium-falcon.png';
-    this.x = x;
-    this.y = y;
-    this.score = 0;
-    this.lives = 3;
-    this.speed = 60;
 };
 
 // Draws bounding box on enemy and player when called. Useful for debugging.
